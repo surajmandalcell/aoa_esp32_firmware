@@ -1,19 +1,15 @@
-IMAGE_NAME := aoa-esp32			# Define the Docker image name
-LOCAL_PROJECT_DIR := /Users/surajmandal/Desktop/dev/work/esp32_frimware		# Define your local project directory and build directory
-BUILD_DIR := $(LOCAL_PROJECT_DIR)/build
-BOARD := esp32:esp32:esp32 			# Define the board fully qualified board name
-DOCKER_WORK_DIR := /workspace		# Define the Docker work directory
+build:
+	docker build -t esp32_firmware .
 
-.PHONY: docker-build
-docker-build:
-	docker build -t $(IMAGE_NAME) .
+run:
+	docker stop esp32_firmware || true
+	docker rm esp32_firmware || true
+	docker run --name esp32_firmware -v /Users/surajmandal/Desktop/dev/work/esp32_firmware/build:/esp32_firmware/build esp32_firmware
 
-.PHONY: compile
-compile: docker-build
-	docker run --rm -v "$(LOCAL_PROJECT_DIR):$(DOCKER_WORK_DIR)" $(IMAGE_NAME) arduino-cli compile --fqbn $(BOARD) $(DOCKER_WORK_DIR) --build-path $(DOCKER_WORK_DIR)/build
-
-.PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)/*
+	docker rm esp32_firmware
+	rm -rf build/*
 
-all: compile
+all: build run
+
+.PHONY: build run clean all
