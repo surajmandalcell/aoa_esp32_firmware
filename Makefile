@@ -4,7 +4,7 @@ build:
 run:
 	docker stop esp32_firmware || true
 	docker rm esp32_firmware || true
-	docker run --name esp32_firmware -v /Users/surajmandal/Desktop/dev/work/esp32_firmware/build:/esp32_firmware/build esp32_firmware
+	docker run --name esp32_firmware -v $(shell pwd)/build:/esp32_firmware/build esp32_firmware
 
 clean:
 	docker rm esp32_firmware
