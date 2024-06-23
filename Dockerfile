@@ -11,7 +11,14 @@ WORKDIR /esp32_firmware
 COPY ./esp32_firmware.ino /esp32_firmware
 
 # Create build directories
-RUN mkdir -p /esp32_firmware/build /esp32_firmware/internal_build
+RUN mkdir -p /esp32_firmware/builds /esp32_firmware/internal_build
 
-# Command to compile the Arduino sketch and copy output to mounted directory
-CMD arduino-cli compile --fqbn esp32:esp32:nano_nora /esp32_firmware/esp32_firmware.ino --output-dir /esp32_firmware/internal_build --build-path /esp32_firmware/internal_build && cp -r /esp32_firmware/internal_build/* /esp32_firmware/build/
+# Command to compile the Arduino sketch
+CMD BUILD_DIR="/esp32_firmware/builds/$(date +%Y%m%d_%H%M%S)" && \
+    mkdir -p "$BUILD_DIR" && \
+    arduino-cli compile --fqbn esp32:esp32:nano_nora /esp32_firmware/esp32_firmware.ino \
+    --output-dir /esp32_firmware/internal_build \
+    --build-path /esp32_firmware/internal_build && \
+    cp /esp32_firmware/internal_build/esp32_firmware.ino.bin "$BUILD_DIR/" && \
+    cp /esp32_firmware/internal_build/esp32_firmware.ino.bootloader.bin "$BUILD_DIR/" && \
+    cp /esp32_firmware/internal_build/esp32_firmware.ino.partitions.bin "$BUILD_DIR/"
