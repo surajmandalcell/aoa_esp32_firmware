@@ -1,8 +1,8 @@
 #include <ESPAsyncWebServer.h>
 
-#include "services/bluetooth_manager.h"
-#include "services/config.h"
-#include "services/wifi_manager.h"
+#include "lib/bluetooth_manager.h"
+#include "lib/config.h"
+#include "lib/wifi_manager.h"
 
 AsyncWebServer server(80);
 
