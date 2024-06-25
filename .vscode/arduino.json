@@ -1,6 +1,0 @@
-{
-    "configuration": "PartitionScheme=default,PinNumbers=default,USBMode=default",
-    "board": "esp32:esp32:nano_nora",
-    "programmer": "esptool",
-    "sketch": "esp32_firmware.ino"
-}
