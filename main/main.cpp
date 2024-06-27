@@ -1,13 +1,15 @@
 #include <stdio.h>
-#include <iostream>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
 
-// USER
-#include "server.h"
-#include "services/bluetooth_manager.h"
-#include "services/config.h"
-#include <string.h>
+static const char *TAG = "example";
 
-void app_main(void)
+extern "C" void app_main()
 {
-    std::cout << "Hello world";
+    while (1)
+    {
+        ESP_LOGI(TAG, "Hello, World!");
+        vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay for 1 second
+    }
 }
