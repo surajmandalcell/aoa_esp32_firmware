@@ -1,2 +1,1 @@
-build/*
-!build/.gitkeep
+firmware/esp32_firmware/env.h
