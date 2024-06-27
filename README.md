@@ -1,9 +1,8 @@
-# AOA Firmware for the Arduino Nano ESP32
+# AOA ESP32 Firmware
 
-## Introduction
+This Firmware does the following:
 
-- [ ] Add libraries required to components folder
-- - [ ] BluetoothSerial
-- - [ ] WiFi
-- - [ ] ESPAsyncWebServer
-- - [ ] AsyncTCP
+- Connects to a WiFi to talk to server
+- Connects to bluetooth switch
+- Talks to openlog to get data off and to from the server over wifi
+- Server can flash the device over the air
