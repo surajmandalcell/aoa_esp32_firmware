@@ -5,6 +5,8 @@ void setup() {
   delay(1000);
 
   connectWiFi(WIFI_SSID, WIFI_PASSWORD);
+  // TODO: Handle the bluetooth switch
+  // connectBluetoothSwitch()
 }
 
 void loop() {
