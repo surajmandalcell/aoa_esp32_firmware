@@ -1,13 +1,19 @@
 #include "ble.h"
 
-BLEHelper bleHelper;
+Bluetooth bleHelper;
 
 void setup() {
-  bleHelper.begin();
+  Serial.begin(115200);
+	bleHelper.begin();
 }
 
 void loop() {
-  bleHelper.scanForDevices();
-  BLEDevice peripheral = bleHelper.available();
-  bleHelper.printPeripheralDetails(peripheral);
+	BLEDevice peripheral = bleHelper.available();
+	if (peripheral) {
+		Serial.print(peripheral.deviceName());
+		Serial.print(peripheral.address());
+		bleHelper.printPeripheralDetails(peripheral);
+		bleHelper.connectToDevice(peripheral);
+	}
+	delay(1000);
 }
