@@ -2,7 +2,7 @@ Language: Cpp
 BasedOnStyle: Google
 IndentWidth: 2
 TabWidth: 2
-UseTab: Never
+UseTab: Always
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: false
