@@ -1,0 +1,4 @@
+"sketch": "firmware\\test_sketches\\bluetooth\\bluetooth.ino",
+
+ 
+"sketch": "firmware\\esp32_firmware\\esp32_firmware.ino",

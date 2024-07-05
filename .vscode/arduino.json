@@ -1,3 +1,8 @@
 {
-    "port": "COM6"
+  "port": "COM6",
+  "configuration": "PartitionScheme=default,PinNumbers=default,USBMode=default",
+  "board": "arduino:esp32:nano_nora",
+  "intelliSenseGen": "global",
+  "sketch": "firmware\\esp32_firmware\\esp32_firmware.ino",
+  "output": ".build"
 }
