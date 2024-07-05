@@ -18,21 +18,21 @@ void setup() {
 void loop() {
 	if (Serial.available()) {
 		String input = Serial.readStringUntil('\n');
-		input.trim();	 // Correctly use trim() on the existing String object
+		input.trim();	 // Clean up any whitespace or newline characters
+
 		if (input == "1") {
 			monitorSerial();
-			displayMenu();
 		} else if (input == "2") {
 			sendSerialCommands();
-			displayMenu();
 		} else if (input == "esc") {
-			displayMenu();
+			// Esc logic, if any additional is needed
 		} else if (input == "") {
-			displayMenu();
+			// Handling empty input if necessary
 		} else {
 			Serial.println("Invalid option. Try again.");
-			displayMenu();
 		}
+		displayMenu();
+		clearSerialBuffer();
 	}
 }
 
@@ -45,15 +45,21 @@ void displayMenu() {
 
 void monitorSerial() {
 	Serial.println("Monitoring Serial1 (Type 'esc' to exit)...");
-	while (Serial.available() ==
-				 0) {	 // Continue monitoring until there's input on Serial
+	while (true) {
 		if (_SerialCom.available()) {
 			String message = _SerialCom.receive();
 			Serial.print("Received: ");
 			Serial.println(message);
 		}
+		if (Serial.available()) {
+			String command = Serial.readStringUntil('\n');
+			command.trim();
+			if (command == "esc") {
+				clearSerialBuffer();
+				return;	 // Exit the function and go back to the menu
+			}
+		}
 	}
-	// Exit on any input
 }
 
 void sendSerialCommands() {
@@ -62,11 +68,18 @@ void sendSerialCommands() {
 	while (true) {
 		if (Serial.available()) {
 			String command = Serial.readStringUntil('\n');
-			command.trim();	 // Correctly use trim()
+			command.trim();
 			if (command == "esc") {
-				return;	 // Return to menu on 'esc'
+				clearSerialBuffer();
+				return;	 // Exit the function and go back to the menu
 			}
 			_SerialCom.send(command);
 		}
+	}
+}
+
+void clearSerialBuffer() {
+	while (Serial.available() > 0) {
+		Serial.read();	// Read and discard any residual data in the buffer
 	}
 }
