@@ -3,11 +3,11 @@
 #include "wifi.h"
 
 AWifi awifi;
-SerialCom _SerialCom(44, 43);	 // ESP32 Nano RX and TX Pins
+SerialCom serial_com(44, 43);	 // ESP32 Nano RX and TX Pins, default baud rate is 115200
 
 void setup() {
 	Serial.begin(115200);
-	_SerialCom.begin();
+	serial_com.begin();
 
 	// Handling Wifi Connection
 	awifi.connectWifi(WIFI_SSID, WIFI_PASSWORD);
@@ -24,8 +24,8 @@ void loop() {
 			monitorSerial();
 		} else if (input == "2") {
 			sendSerialCommands();
-		} else if (input == "esc") {
-			// Esc logic, if any additional is needed
+		} else if (input == "clear") {
+			for (int i = 0; i < 30; i++) Serial.println();
 		} else if (input == "") {
 			// Handling empty input if necessary
 		} else {
@@ -40,14 +40,15 @@ void displayMenu() {
 	Serial.println("\n### MENU ###");
 	Serial.println("1: Monitor Serial1 Messages");
 	Serial.println("2: Send Commands to Serial1");
+	Serial.println("clear: Clear Terminal");
 	Serial.println("Enter the number of the desired option:");
 }
 
 void monitorSerial() {
 	Serial.println("Monitoring Serial1 (Type 'esc' to exit)...");
 	while (true) {
-		if (_SerialCom.available()) {
-			String message = _SerialCom.receive();
+		if (serial_com.available()) {
+			String message = serial_com.receive();
 			Serial.print("Received: ");
 			Serial.println(message);
 		}
@@ -63,8 +64,7 @@ void monitorSerial() {
 }
 
 void sendSerialCommands() {
-	Serial.println(
-			"Type commands to send to Serial1 (Type 'esc' to return to menu):");
+	Serial.println("Type commands to send to Serial1 (Type 'esc' to return to menu):");
 	while (true) {
 		if (Serial.available()) {
 			String command = Serial.readStringUntil('\n');
@@ -72,8 +72,9 @@ void sendSerialCommands() {
 			if (command == "esc") {
 				clearSerialBuffer();
 				return;	 // Exit the function and go back to the menu
+			} else {
+				serial_com.send(command);
 			}
-			_SerialCom.send(command);
 		}
 	}
 }
