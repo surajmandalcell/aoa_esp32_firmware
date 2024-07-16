@@ -4,57 +4,74 @@
 #include <Arduino.h>
 
 /**
- * @brief The SerialCom class provides a simple interface for serial
- * communication.
- */
-/**
  * @file serial_com.h
  * @brief Defines the SerialCom class for serial communication.
- */
-
-/**
- * @class SerialCom
- * @brief Represents a serial communication interface.
+ *
+ * The SerialCom class provides a simple interface for serial
+ * communication using RX and TX pins on an Arduino-compatible device.
  */
 class SerialCom {
 public:
 	/**
-	 * @brief Constructs a SerialCom object with the specified RX and TX pins and
-	 * baud rate.
+	 * @brief Construct a new SerialCom object.
+	 *
 	 * @param rxPin The RX pin number.
 	 * @param txPin The TX pin number.
-	 * @param baudRate The baud rate for serial communication. Default is 115200.
+	 * @param baudRate The baud rate for serial communication (default is 115200).
 	 */
 	SerialCom(int rxPin, int txPin, long baudRate = 115200);
 
 	/**
-	 * @brief Initializes the serial communication.
+	 * @brief Initialize serial communication.
 	 */
 	void begin();
 
 	/**
-	 * @brief Sends data over the serial communication.
-	 * @param data The data to be sent.
+	 * @brief Send data over serial.
+	 *
+	 * @param data The string data to send.
 	 */
 	void send(String data);
 
 	/**
-	 * @brief Receives data from the serial communication.
-	 * @return The received data as a String.
+	 * @brief Receive data from serial.
+	 *
+	 * @return String The received data.
 	 */
 	String receive();
 
 	/**
-	 * @brief Checks if there is data available to be read from the serial
-	 * communication.
-	 * @return The number of bytes available to be read.
+	 * @brief Check the number of bytes available for reading from serial.
+	 *
+	 * @return int The number of bytes available.
 	 */
 	int available();
 
+	/**
+	 * @brief Flush the serial buffer.
+	 *
+	 * Clears the serial buffer by reading and discarding all available bytes.
+	 */
+	void flush();
+
+	/**
+	 * @brief Read data from serial.
+	 *
+	 * @return String The read data.
+	 */
+	String read();
+
+	/**
+	 * @brief Display the file system directory in a menu format.
+	 *
+	 * @return String The formatted directory listing.
+	 */
+	String menu_fs_dir();
+
 private:
-	int _rxPin;			/**< The RX pin number. */
-	int _txPin;			/**< The TX pin number. */
-	long _baudRate; /**< The baud rate for serial communication. */
+	int _rxPin;			 // The RX pin number.
+	int _txPin;			 // The TX pin number.
+	long _baudRate;	 // The baud rate for serial communication.
 };
 
 #endif
